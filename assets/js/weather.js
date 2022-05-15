@@ -9,12 +9,19 @@ let lat;
 // longitude 
 let lon;
 
+let today = new Date ();
+//getHours() -- current hour between 0-23
+let hour = today.getHours();
+//getMinutes() -- current minutes between 0-59
+let minute = today.getMinutes()
+let days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 // display results
-let temp = 0
+let temp;
 let humidity;
 let wind;
 let uv;
 let condition = "";
+
 
 // some DOM element
 var searchKey = document.getElementById('searchInput')
@@ -50,28 +57,42 @@ function getLocation(city) {
     })
 }
 
-function getWeather(lat,lon) {
-    fetch(apiCall + `?lat=` + lats + `&lon=` + lons + `&appid=${apiKey}`) 
-        .then (function (response) {
-        return response.json();
-            })
-.       then (function (data) {
+getLocation("irvine");
+
+// good 
+function getWeather(lats, lons) {
+	fetch(weatherCall + `?lat=` + lats + `&lon=` + lons + `&appid=${apiKey}`)
+		.then(function (response) {
+			return response.json();
+		})
+		.then(function (data) {
         console.log(data);
     
+    // assign values to weather varibles
     temp = data.current.temp;
+     console.log(temp);
+    
+     // convert temp from K to F
+    var Ftemp = (temp - 273.15) * 1.8 + 32;
+    console.log(Ftemp);
 
-    humidity = data.current.humidity;
+     humidity = data.current.humidity;
+    console.log(humidity);
 
     wind = data.current.wind_speed;
+    console.log(wind);
 
-    uv = data.current.
+    uv = data.current.uvi;
+    console.log(uv);
     
-    
-    }
-
-    // assign values to weather varibles
-
-    
-
-
+    var weatherScore = data.current.weather[0].icon;
+	var iconScore = `http://openweathermap.org/img/wn/${weatherScore}@2x.png`;
+    })
 }
+
+getWeather(34,-118);
+  
+
+    
+
+

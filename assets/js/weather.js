@@ -24,10 +24,15 @@ let condition = "";
 
 
 // some DOM element
-var searchKey = document.getElementById('searchInput')
-var citySearched = document.getElementById('citySearched');
-
-
+let citySearched = document.getElementById('citySearched');
+let getToday = document.getElementById('today');
+let weateherIcon = document.getElementById('weatherIcon');
+let displayTemp = document.getElementById('temp');
+let displayHumid = document.getElementById('humid');
+let displayWind = document.getElementById('windSpeed');
+let displayUv = document.getElementById('uvIndex');
+let description = document.getElementById('description');
+let searchKey = document.getElementById('searchInput');
 
 // api call variables
 const geoCall = "https://api.openweathermap.org/geo/1.0/direct"

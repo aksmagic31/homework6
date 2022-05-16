@@ -26,7 +26,7 @@ let condition = "";
 // some DOM element
 let citySearched = document.getElementById('citySearched');
 let getToday = document.getElementById('today');
-let weateherIcon = document.getElementById('weatherIcon');
+let displayIcon = document.getElementById('weatherIcon');
 let displayTemp = document.getElementById('temp');
 let displayHumid = document.getElementById('humid');
 let displayWind = document.getElementById('windSpeed');
@@ -39,7 +39,7 @@ const geoCall = "https://api.openweathermap.org/geo/1.0/direct"
 const weatherCall = "https://api.openweathermap.org/data/2.5/onecall"
 
 // populate DOM element
-
+getToday = today;
 // function to get the lat and long
 function getLocation(city) {
     fetch(geoCall + `?q=${encodeURI(city)}&appid=${apiKey}`) 
@@ -79,19 +79,26 @@ function getWeather(lats, lons) {
     
      // convert temp from K to F
     var Ftemp = (temp - 273.15) * 1.8 + 32;
-    console.log(Ftemp);
-
+    // console.log(Ftemp);
+    
+    displayTemp.textContent = `${Ftemp} °`;
      humidity = data.current.humidity;
-    console.log(humidity);
+    // console.log(humidity);
+
+    displayHumid.textContent = `Hum | ${humidity} %`;
 
     wind = data.current.wind_speed;
-    console.log(wind);
+    // console.log(wind);
+    displayWind.textContent = `Wind | ${wind}`
 
     uv = data.current.uvi;
-    console.log(uv);
-    
+    // console.log(uv);
+    displayUv.textContent = `UV | ${uv} %`;
+
+    // display icon
+
     var weatherScore = data.current.weather[0].icon;
-	var iconScore = `http://openweathermap.org/img/wn/${weatherScore}@2x.png`;
+    displayIcon.src =  `http://openweathermap.org/img/wn/${weatherScore}@4x.png`
     })
 }
 

@@ -9,8 +9,9 @@ let lat;
 // longitude 
 let lon;
 
-let today = new Date();
-
+var today = moment();
+var dayWeek = today.format("MMM Do, YYYY")
+console.log(dayWeek);
 // display results
 let temp;
 let humidity;
@@ -79,7 +80,7 @@ function getWeather(lats, lons) {
             temp = data.current.temp;
             console.log(temp);
             
-            // displayDate.textContent = `${today}`;
+            displayDate.textContent = `${dayWeek}`;
             // convert temp from K to F
             var Ftemp = (temp - 273.15) * 1.8 + 32;
             // console.log(Ftemp);

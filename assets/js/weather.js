@@ -10,11 +10,7 @@ let lat;
 let lon;
 
 let today = new Date();
-//getHours() -- current hour between 0-23
-let hour = today.getHours();
-//getMinutes() -- current minutes between 0-59
-let minute = today.getMinutes()
-let days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
 // display results
 let temp;
 let humidity;
@@ -25,6 +21,7 @@ let condition = "";
 
 // main DOM element
 let citySearched = document.getElementById('citySearched');
+let displayDate = document.getElementById('today');
 let displayIcon = document.getElementById('weatherIcon');
 let displayTemp = document.getElementById('temp');
 let displayHumid = document.getElementById('humid');
@@ -81,7 +78,8 @@ function getWeather(lats, lons) {
             // assign values to weather varibles
             temp = data.current.temp;
             console.log(temp);
-
+            
+            // displayDate.textContent = `${today}`;
             // convert temp from K to F
             var Ftemp = (temp - 273.15) * 1.8 + 32;
             // console.log(Ftemp);
@@ -106,17 +104,16 @@ function getWeather(lats, lons) {
             displayIcon.src = `http://openweathermap.org/img/wn/${weatherScore}@4x.png`
 
             let output = '';
-
+// loop through the data to get the weather data for the 5 day period
             for (var i = 1; i < 6; i++) {
-                // // loop through the 5 days for forecast
-                // var fiveDateUTCScore = data.daily[i].dt;
-                // // change time to display date
-                // var fiveDateUTCScoreMili = fiveDateUTCScore * 1000;
-                // var dateScore3 = fiveDateUTCScoreMili + timeZoneScoreMili;
-                // var dateObject3 = new Date(dateScore3);
-                var fiveDays = data.daily[i].dt;
 
-
+                var fiveDateUTCScore = data.daily[i].dt;
+                
+				// convert UNIX, UTC to a Date
+				var fiveDateUTCScoreMili = fiveDateUTCScore * 1000;
+				
+				var dateObject3 = new Date(fiveDateUTCScoreMili);
+				var fiveDays = dateObject3.toLocaleDateString();
                 var fiveIcon = data.daily[i].weather[0].icon;
                 // var fiveIcon = `http://openweathermap.org/img/wn/${fiveWeather}@2x.png`;
 
@@ -132,6 +129,9 @@ function getWeather(lats, lons) {
                 var fiveWind = data.daily[i].wind_speed;
 
                 var fiveUV = data.daily[i].uvi;
+
+     // output the cards for the 5 Day Forecasts
+
 
                 output += /*html*/ `
                 <div class="eachCard">
@@ -153,7 +153,7 @@ function getWeather(lats, lons) {
                 // displayForcast(fiveDays, fiveIcon, fiveFtemp, fiveHumid,fiveWind, fiveUV);
                 
 
-
+// for some reason cannot do function here...
 
 // function displayForcast(fiveDays,fiveIcon,fiveFtemp,fiveHumid,fiveWind,fiveUV) {
 // 	// Create Each Day's Weather Info
@@ -181,7 +181,7 @@ function getWeather(lats, lons) {
 
 
 getWeather(34, -118);
-
+// add eventlistener function
 searchKey.addEventListener('keypress', function (event) {
     if (event.key === 'Enter') {
         event.preventDefault();

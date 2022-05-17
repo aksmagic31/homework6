@@ -34,6 +34,7 @@ body {
     top: 0;
     left: 0;
     margin-left: 20px;
+    color:blue
 }
 
 
@@ -73,10 +74,6 @@ body {
     padding-bottom: 7.5px;
 }
 
-.today {
-    margin-top: 35px;
-}
-
 
 
 .eachCard {
@@ -85,6 +82,7 @@ body {
     width: 200px;
     height: 335px;
     margin: 15px 55px;
+    color:blue
 }
 
 .flex {

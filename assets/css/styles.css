@@ -3,7 +3,7 @@
     margin: 0;
     box-sizing: border-box;
     font-family: Arial, Helvetica, sans-serif;
-                                                
+    color:violet;                                            
 }
 
 
@@ -15,6 +15,91 @@ body {
 
     background: url('../../assets/images/cloud.gif') no-repeat center center fixed;
     background-size: cover;
+}
+
+.mainContainer {
+    width: auto;
+    display: flex;
+    flex-direction: row;
+}
+
+.sidebar {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-right: 20px;
+}
+
+.leftSide {
+    top: 0;
+    left: 0;
+    margin-left: 20px;
+}
+
+
+#searchInput {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    text-align: center;
+    height: 40px;
+}
+
+.cityName {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    text-align: center;
+    height: 40px;
+    font-size: 2em;
+}
+
+
+.info {
+    /* line-height: 50px; */
+    text-align: left;
+    margin-top: 20px;
+    font-size: 1em;
+    line-height: 35px;
+    
+}
+
+
+
+.current {
+    font-size: 0.75em;
+    /* margin-top: 0px; */
+    border-bottom: 3px solid #FFF;
+    padding-bottom: 7.5px;
+}
+
+.today {
+    margin-top: 35px;
+}
+
+
+
+.eachCard {
+    border: solid 1px; 
+    border-radius: 25px;
+    width: 200px;
+    height: 335px;
+    margin: 15px 55px;
+}
+
+.flex {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+
+#dailyForecast {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-self: center;
 }
 
 

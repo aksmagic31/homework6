@@ -10,39 +10,48 @@
     <title>The Travellers' Weather Report</title>
 </head>
 <body>
-    <section class="leftSide">
-        <h1 class="cityName"> <span id="citySearched"></span> </h1>
+    <main class="mainContainer">
+        <section class="leftSide">
+            <h1 class="cityName"> <span id="citySearched"></span> </h1>
 
-        <div class="today">
-            <pc class="current"> Current </p>    
-        </div>
-
-        <div class="info">
-            <p> <span id="today"></span></p>
-            <!-- <p> <span id="description"></span></p> -->
-            <img id="weatherIcon" src="" alt="Weather Icon">
-            <p> TEMP: <span id="temp"></span></p>
-            <p> HUM: <span id="humid"></span></p>
-            <p> WS: <span id="windSpeed"></span></p>
-            <p> UV: <span id="uvIndex"></span></p>
-        </div>
-    </section>
-
-    <section class="sidebar">
-        <form action="#">
-            <input id="searchInput" type="text" placeholder="Please Enter the City you want to Search">
-            <!-- <button id="searchButton"> Search </button> -->
-            <div class="history">
-                <pc class="historyList"> Search history </p>    
-
+            <div class="today">
+                <pc class="current"> Current </p>    
             </div>
-        </form>
 
-    </section>
+            <div class="info">
+                <p> <span id="today"></span></p>
+                <!-- <p> <span id="description"></span></p> -->
+                <img id="weatherIcon" src="" alt="Weather Icon">
+                <p> TEMP: <span id="temp"></span></p>
+                <p> HUM: <span id="humid"></span></p>
+                <p> WS: <span id="windSpeed"></span></p>
+                <p> UV: <span id="uvIndex"></span></p>
+            </div>
+        </section>
+        
+        <!-- <h2>Five Day Forecast: </h2> -->
+        <section id="dailyForecast">
+            <pc class="forecast">Five Days Weather Forecast </p>    
 
-    
+        </section>
+        
+        <section class="sidebar">
+            <form action="#">
+                <input id="searchInput" type="text" placeholder="Please Enter the City you want to Search">
+                <!-- <button id="searchButton"> Search </button> -->
+                <div class="history">
+                    <pc class="historyList"> Search history </p>    
 
+                </div>
+            </form>
+
+        </section>
+        
+        
+    </main>
 </body>
+
+
   </body>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>

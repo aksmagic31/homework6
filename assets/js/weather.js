@@ -1,6 +1,6 @@
 
 // api key
-const apiKey =  "fefbb26b20c8d2762255de0b2fb600e9"
+const apiKey = "fefbb26b20c8d2762255de0b2fb600e9"
 
 // these are global variables
 // latitutde 
@@ -9,7 +9,7 @@ let lat;
 // longitude 
 let lon;
 
-let today = new Date ();
+let today = new Date();
 //getHours() -- current hour between 0-23
 let hour = today.getHours();
 //getMinutes() -- current minutes between 0-59
@@ -23,16 +23,21 @@ let uv;
 let condition = "";
 
 
-// some DOM element
+// main DOM element
 let citySearched = document.getElementById('citySearched');
-let getToday = document.getElementById('today');
 let displayIcon = document.getElementById('weatherIcon');
 let displayTemp = document.getElementById('temp');
 let displayHumid = document.getElementById('humid');
 let displayWind = document.getElementById('windSpeed');
 let displayUv = document.getElementById('uvIndex');
-let description = document.getElementById('description');
 let searchKey = document.getElementById('searchInput');
+
+// future 5 days DOM element
+// let fiveDisplayIcon = document.getElementById('fiveweatherIcon');
+// let fiveDisplayTemp = document.getElementById('fivetemp');
+// let fiveDisplayHumid = document.getElementById('fivehumid');
+// let fiveDisplayWind = document.getElementById('fivewindSpeed');
+// let fiveDisplayUv = document.getElementById('fiveuvIndex');
 
 // api call variables
 const geoCall = "https://api.openweathermap.org/geo/1.0/direct"
@@ -42,69 +47,148 @@ const weatherCall = "https://api.openweathermap.org/data/2.5/onecall"
 getToday = today;
 // function to get the lat and long
 function getLocation(city) {
-    fetch(geoCall + `?q=${encodeURI(city)}&appid=${apiKey}`) 
-    .then (function (response) {
-    return response.json();
-    })
-    .then (function (data) {
-        console.log(data);
-        
-        lat =  data[0].lat
-            console.log(lat)
-        lon = data[0].lon
-            console.log(lon)
-        
-        // Call Function with Lat and Lon
-        getWeather(lat, lon)
+    fetch(geoCall + `?q=${encodeURI(city)}&appid=${apiKey}`)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            console.log(data);
 
-        // Display City on Page
-        citySearched.textContent = city;
-    })
+            lat = data[0].lat
+            console.log(lat)
+            lon = data[0].lon
+            console.log(lon)
+
+            // Call Function with Lat and Lon
+            getWeather(lat, lon)
+
+            // Display City on the page
+            citySearched.textContent = city;
+        })
 }
 
 getLocation("irvine");
 
-// good 
+// function to get Weather using the lat and lon found in previous function
 function getWeather(lats, lons) {
-	fetch(weatherCall + `?lat=` + lats + `&lon=` + lons + `&appid=${apiKey}`)
-		.then(function (response) {
-			return response.json();
-		})
-		.then(function (data) {
-        console.log(data);
+    fetch(weatherCall + `?lat=` + lats + `&lon=` + lons + `&appid=${apiKey}`)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            console.log(data);
+
+            // assign values to weather varibles
+            temp = data.current.temp;
+            console.log(temp);
+
+            // convert temp from K to F
+            var Ftemp = (temp - 273.15) * 1.8 + 32;
+            // console.log(Ftemp);
+
+            displayTemp.textContent = `${Ftemp} °`;
+            humidity = data.current.humidity;
+            // console.log(humidity);
+
+            displayHumid.textContent = `Hum | ${humidity} %`;
+
+            wind = data.current.wind_speed;
+            // console.log(wind);
+            displayWind.textContent = `Wind | ${wind}`
+
+            uv = data.current.uvi;
+            // console.log(uv);
+            displayUv.textContent = `UV | ${uv} %`;
+
+            // display icon
+
+            var weatherScore = data.current.weather[0].icon;
+            displayIcon.src = `http://openweathermap.org/img/wn/${weatherScore}@4x.png`
+
+            let output = '';
+
+            for (var i = 1; i < 6; i++) {
+                // // loop through the 5 days for forecast
+                // var fiveDateUTCScore = data.daily[i].dt;
+                // // change time to display date
+                // var fiveDateUTCScoreMili = fiveDateUTCScore * 1000;
+                // var dateScore3 = fiveDateUTCScoreMili + timeZoneScoreMili;
+                // var dateObject3 = new Date(dateScore3);
+                var fiveDays = data.daily[i].dt;
+
+
+                var fiveIcon = data.daily[i].weather[0].icon;
+                // var fiveIcon = `http://openweathermap.org/img/wn/${fiveWeather}@2x.png`;
+
+
+                var fiveTemp = data.daily[i].temp.day;
+
+
+                var fiveFtemp = (fiveTemp - 273.15) * 1.8 + 32;
+
+                var fiveHumid = data.daily[i].humidity;
+
+
+                var fiveWind = data.daily[i].wind_speed;
+
+                var fiveUV = data.daily[i].uvi;
+
+                output += /*html*/ `
+                <div class="eachCard">
+                    <div class="flex">
+                        <img class="dailyWeatherIcon"  src= "http://openweathermap.org/img/wn/${fiveIcon}@4x.png"alt= "Weather Icon">
+                        <div class="dailyDt">${fiveDays}</div>
+                        <div class="dailyTemp">${fiveFtemp}°</div>
+                        <div class="dailyHumid">${fiveHumid}</div>
+                        <div class="dailyWind">${fiveWind}</div>
+                        <div class="dailyUV">${fiveUV}</div>
+                    </div>
+                </div>
+            `;
+            }
+            $('#dailyForecast').html(output);
+        })
+    }
+        
+                // displayForcast(fiveDays, fiveIcon, fiveFtemp, fiveHumid,fiveWind, fiveUV);
+                
+
+
+
+// function displayForcast(fiveDays,fiveIcon,fiveFtemp,fiveHumid,fiveWind,fiveUV) {
+// 	// Create Each Day's Weather Info
+//     console.log(fiveFtemp);
+
+//     let output = '';
+
+//         output += /*html*/ `
+//         <div class="eachCard">
+//             <div class="flex">
+//                 <img class="dailyWeatherIcon"  src= "http://openweathermap.org/img/wn/${fiveIcon}@4x.png"alt= "Weather Icon">
+//                 <div class="dailyDt">${fiveDays}</div>
+//                 <div class="dailyTemp">${fiveFtemp}°</div>
+//                 <div class="dailyHumid">${fiveHumid}</div>
+//                 <div class="dailyWind">${fiveWind}</div>
+//                 <div class="dailyUV">${fiveUV}</div>
+//             </div>
+//         </div>
+//     `;
     
-    // assign values to weather varibles
-    temp = data.current.temp;
-     console.log(temp);
-    
-     // convert temp from K to F
-    var Ftemp = (temp - 273.15) * 1.8 + 32;
-    // console.log(Ftemp);
-    
-    displayTemp.textContent = `${Ftemp} °`;
-     humidity = data.current.humidity;
-    // console.log(humidity);
+//     $('#dailyForecast').html(output);
+// }
 
-    displayHumid.textContent = `Hum | ${humidity} %`;
 
-    wind = data.current.wind_speed;
-    // console.log(wind);
-    displayWind.textContent = `Wind | ${wind}`
 
-    uv = data.current.uvi;
-    // console.log(uv);
-    displayUv.textContent = `UV | ${uv} %`;
 
-    // display icon
+getWeather(34, -118);
 
-    var weatherScore = data.current.weather[0].icon;
-    displayIcon.src =  `http://openweathermap.org/img/wn/${weatherScore}@4x.png`
-    })
-}
+searchKey.addEventListener('keypress', function (event) {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+        citySearching = document.getElementById('searchInput').value.trim();
+        getLocation(citySearching);
 
-getWeather(34,-118);
-  
-
-    
+    }
+});
 
 

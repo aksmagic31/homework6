@@ -29,6 +29,7 @@ let displayHumid = document.getElementById('humid');
 let displayWind = document.getElementById('windSpeed');
 let displayUv = document.getElementById('uvIndex');
 let searchKey = document.getElementById('searchInput');
+let searchedCity = document.getElementById("historyList");
 
 // future 5 days DOM element
 // let fiveDisplayIcon = document.getElementById('fiveweatherIcon');
@@ -51,7 +52,9 @@ function getLocation(city) {
         })
         .then(function (data) {
             console.log(data);
+            var searchedCity = data[0].name;
 
+            saveCity(searchedCity)
             lat = data[0].lat
             console.log(lat)
             lon = data[0].lon
@@ -64,9 +67,28 @@ function getLocation(city) {
             citySearched.textContent = city;
         })
 }
-
+function saveCity(searchedCity){
+    let pastCities = JSON.parse(localStorage.getItem("cities")) || [];
+    if(pastCities.includes(searchedCity)) return;
+    pastCities.push(searchedCity);
+    localStorage.setItem("cities",JSON.stringify(pastCities))
+    displayHistory();
+}
 getLocation("irvine");
 
+function displayHistory(){
+    searchedCity.innerHTML = ""
+    let pastCities = JSON.parse(localStorage.getItem("cities")) || [];
+    for (let i = 0; i < pastCities.length; i++){ 
+        let city = pastCities[i]
+        let cityButton = document.createElement("button");
+        cityButton.innerText = city
+        cityButton.addEventListener("click", () => {
+            getLocation(city)
+        })
+        searchedCity.append(cityButton);
+    }
+}
 // function to get Weather using the lat and lon found in previous function
 function getWeather(lats, lons) {
     fetch(weatherCall + `?lat=` + lats + `&lon=` + lons + `&appid=${apiKey}`)
@@ -146,6 +168,7 @@ function getWeather(lats, lons) {
                     </div>
                 </div>
             `;
+
             }
             $('#dailyForecast').html(output);
         })
@@ -192,4 +215,5 @@ searchKey.addEventListener('keypress', function (event) {
     }
 });
 
+displayHistory();
 
